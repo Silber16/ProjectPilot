@@ -1,0 +1,21 @@
+GET https://localhost:7158/Project/Detail/30 HTTP/1.1
+
+###
+
+POST https://localhost:7158/Account/LogOut HTTP/1.1
+Content-Type: application/json
+
+{
+   
+  
+}
+
+###
+
+PATCH https://localhost:7158/Project/Edit/24 HTTP/1.1
+Content-Type: application/json
+
+{
+    "Title": "titulo 11",
+    "Desc": "Hola desc 1"
+}
