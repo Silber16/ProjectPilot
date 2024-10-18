@@ -28,7 +28,7 @@ export default function Tasks({projectTasks, projectId}) {
         setSeeAll(!seeAll);
     };
 
-    async function edit(bool ,task)
+    function edit(bool ,task)
         { 
             setIsEditing(bool)
 
@@ -45,34 +45,34 @@ export default function Tasks({projectTasks, projectId}) {
         }
 
     async function handleCreateTask(task) {
-        console.log(task)
+        
         task = {
             ...task,
             projectId: projectId
         };
         
-        axios.post(`${import.meta.env.VITE_BACK_URI}/Tasks/Create`, task)
-            .then(res => {
-                if (res.status == 200 || res.status == 201) {
-                    setTasks([...tasks, task])
-                    window.location.reload();
-                }
-            })
-            .catch(e => console.error(e))
+        try {
+            await axios.post(`${import.meta.env.VITE_BACK_URI}/Tasks/Create`, task)
+            setTasks([...tasks, task])
+            window.location.reload();
+        } catch (e) {
+            console.error("error at create task: ", e)
+        }
+
     }
 
     async function send(data) {
-        await axios.patch(`${import.meta.env.VITE_BACK_URI}/Tasks/Edit/${editingTask.id}`, data) 
-        .then(response => {
-            if (response.status == 200) {
-                setIsEditing(false)
-                window.location.reload()
-            }
-        })
-        .catch(e => console.error(e))
+
+        try {
+            await axios.patch(`${import.meta.env.VITE_BACK_URI}/Tasks/Edit/${editingTask.id}`, data) 
+            setIsEditing(false)
+            window.location.reload()
+        } catch (e) {
+            console.error("error at edit task: ", e)
+        }
     }
 
-    async function deleteTask(taskId) {
+    function deleteTask(taskId) {
         if (taskId != undefined) {
             axios.delete(`${import.meta.env.VITE_BACK_URI}/Tasks/Delete/${taskId}`)
               .then(response => {
@@ -190,7 +190,7 @@ export default function Tasks({projectTasks, projectId}) {
                             </div>
                             </li>
                 )))
-                    : (<p >You dont have tasks already</p>)
+                    : (<p >You have no tasks yet.</p>)
                 }
                 {
                     tasks.length > 3 

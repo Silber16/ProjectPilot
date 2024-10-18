@@ -21,17 +21,14 @@ export default function Notes({projectNotes, projectId}) {
         projectId: projectId,
         link: [note.link]
     };
-    console.log(note.resources)
-    axios.post(`${import.meta.env.VITE_BACK_URI}/Note/Create`, note)
-        .then(res => {
-            if (res.status == 200 || res.status == 201) {
-                setNotes([...notes, note])
-                window.location.reload();
-            }
-        }
-            
-        )
-        .catch(e => console.error(e))
+
+    try {
+        await axios.post(`${import.meta.env.VITE_BACK_URI}/Note/Create`, note)
+        setNotes([...notes, note])
+        window.location.reload();
+    } catch (e) {
+        console.error("error at creating note: ", e)
+    }
   }   
 
   async function edit(bool ,task)
@@ -49,17 +46,18 @@ export default function Notes({projectNotes, projectId}) {
       setValue("Link", task.PriorityLevel);
   }
   async function send(data) {
-    await axios.patch(`${import.meta.env.VITE_BACK_URI}/Note/Edit/${editingNote.id}`, data) 
-    .then(response => {
-        if (response.status == 200) {
-           setIsEditing(false)
-           window.location.reload();
-        }
-    })
-    .catch(e => console.error("send error: ", e))
+
+    try {
+        await axios.patch(`${import.meta.env.VITE_BACK_URI}/Note/Edit/${editingNote.id}`, data) 
+        setIsEditing(false)
+        window.location.reload();
+    } catch (e) {
+        console.error("send error: ", e);
+    }
+
 }
 
-  async function DeleteNote(noteId) {
+  function DeleteNote(noteId) {
     if (noteId != undefined) {
         axios.delete(`${import.meta.env.VITE_BACK_URI}/Note/Delete/${noteId}`)
           .then(response => {
@@ -142,7 +140,7 @@ export default function Notes({projectNotes, projectId}) {
                                     </div>
                                 </li>
                         )))
-                          : (<p>You dont have notes already</p>)
+                          : (<p>You have no notes yet.</p>)
                       }
                     </ul>
                     )}        

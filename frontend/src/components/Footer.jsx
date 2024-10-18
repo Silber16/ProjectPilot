@@ -12,7 +12,7 @@ export default function Footer() {
         </div>
         <div className="footer-sec__sub-sec developBy"> 
             <label>Developed by:</label>
-            <a target="_blank" href="https://ar.linkedin.com/"><FaLinkedin /></a>
+            <a target="_blank" href="http://www.linkedin.com/in/francisco-silberberg-590129293"><FaLinkedin /></a>
         </div>
     </footer>
   )

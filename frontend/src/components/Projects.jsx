@@ -11,26 +11,30 @@ export default function Projects() {
     useEffect(() => {
        
         axios.get(`${import.meta.env.VITE_BACK_URI}/Project`, { withCredentials: true })
-        .then(res => {
-            if (res.data.length <= 0) {
-                return "empty"
-            }
-            setProjects(res.data)
-        })
-        .catch(err => console.error(err + ' fetch error'))
+          .then(res => {
+              if (res.data.length <= 0) {
+                  return "empty"
+              }
+              setProjects(res.data)
+          })
+          .catch(err => console.error(err + ' fetch error'))
     }
     , [])
     
     
     async function Send(data) {
     
-        await axios.post(`${import.meta.env.VITE_BACK_URI}/Project/Create`, data,{ withCredentials: true }) 
-          .then(() => window.location.reload())
-          .catch(e => console.error(e))
+        try {
+            await axios.post(`${import.meta.env.VITE_BACK_URI}/Project/Create`, data,{ withCredentials: true }) 
+            window.location.reload()
+        } catch (e) {
+            console.error("error at create project: ",e)
+        }
+
         return
     }
 
-    async function DeleteProject(projectId) {
+    function DeleteProject(projectId) {
 
         if (projectId != undefined) {
             axios.delete(`${import.meta.env.VITE_BACK_URI}/Project/Delete/${projectId}`, {withCredentials:true})
@@ -63,7 +67,7 @@ export default function Projects() {
                   key={index}
                   DeleteProject={DeleteProject}
                 />
-            ))) : (<p>You dont have projects already</p>)} 
+            ))) : (<p>You have no projects yet</p>)} 
          </div>
          <button onClick={() => setShowCreateModal(true)} className="projects-sec__createProject">Create Project</button>
                 <CreateModal

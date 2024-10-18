@@ -48,7 +48,9 @@ body {
                 font-size: 1.1rem;
                 outline: none;
             }
-           
+            .error-message {
+                color: red;
+            }
         }
         &--submit {
             border: .5px solid var(--o-color);
@@ -225,10 +227,14 @@ body {
         &--title {
             font-size: 1.6rem;
             margin-bottom: 1rem;
+            overflow: hidden;
         }
         &--desc {
+            overflow: hidden;
+
             font-size: 1.1rem;
         }
+        
     }
     .divRight {
         text-align: right;

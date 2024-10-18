@@ -7,18 +7,16 @@ export default function WeekTimeUse() {
   const [weeklyData, setWeeklyData] = useState([]);
 
   useEffect(() => {
-    const fetchWeeklyData = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BACK_URI}/Timer/WeekTimerUse`, {withCredentials:true});
-        setWeeklyData(response.data);
-      } catch (error) {
-        console.error('get weekly data error', error);
-      }
 
-    };
-
-    fetchWeeklyData();
-  }, []);
+        axios.get(`${import.meta.env.VITE_BACK_URI}/Timer/WeekTimerUse`, {withCredentials:true})
+          .then(response =>
+            setWeeklyData(response.data)
+          )
+          .catch(error =>
+            console.error('get weekly data error', error)
+          )
+    }
+  , []);
 
   return (
     <div className='weekUssage-container'>
@@ -34,7 +32,7 @@ export default function WeekTimeUse() {
           </li>
         )))
         : (
-          <p style={{textAlign:'center'}}>You dont have any time worked yet</p>
+          <p style={{textAlign:'center'}}>You have not worked any time yet</p>
         )
         }
       </ul>
